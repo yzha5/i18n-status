@@ -13,6 +13,8 @@ package status
 import (
 	"fmt"
 	"regexp"
+
+	"errors"
 )
 
 // Init default init Status, set lang to EN
@@ -80,4 +82,11 @@ func (s *Status) FromError(code Code, err error) error {
 	s.code = code
 	s.msg = compile.ReplaceAllString(err.Error(), "")
 	return s
+}
+
+func Error(code Code,msg string) error {
+	return errors.New(fmt.Sprintf("code %d message: %s",code,msg))
+}
+func Errorf(code Code,format string,arg ...interface{})error{
+	return Error(code,fmt.Sprintf(format,arg...))
 }

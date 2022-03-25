@@ -90,3 +90,7 @@ func Error(code Code,msg string) error {
 func Errorf(code Code,format string,arg ...interface{})error{
 	return Error(code,fmt.Sprintf(format,arg...))
 }
+func FromError(code Code,err error) error {
+	compile := regexp.MustCompile(`code \d+ message: `)
+	return errors.New(compile.ReplaceAllString(err.Error(), ""))
+}
